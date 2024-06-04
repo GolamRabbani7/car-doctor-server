@@ -1,18 +1,22 @@
 const express = require('express');
 const cors = require('cors');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 5000;
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
 
 // middleware.
 app.use(cors());
 app.use(express.json())
 
 
+console.log(process.env.DB_USER, process.env.DB_PASS)
 
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.evugk9o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.evugk9o.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+
+
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -22,7 +26,6 @@ const client = new MongoClient(uri, {
         deprecationErrors: true,
     }
 });
-
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
@@ -38,11 +41,10 @@ async function run() {
 run().catch(console.dir);
 
 
-
 app.get('/', (req, res) => {
     res.send('Car-Doctor-Server')
 });
 
 app.listen(port, () => {
-    console.log(`The Car-Doctor-Server PORT:${port} `)
+    console.log(`The Car-Doctor-Server PORT is :${port} `)
 })
